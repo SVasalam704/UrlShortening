@@ -68,4 +68,20 @@ public class UrlShorteningController extends HttpServlet {
 
     }
 
+    @DeleteMapping("/deleteUrl/{shortUrl}")
+    public ResponseEntity<?> deleteShortLink(@PathVariable String shortUrl){
+        Url urlToRet = urlService.getEncodedUrl(shortUrl);
+        if(urlToRet!=null){
+            urlService.deleteshortUrl(urlToRet);
+            UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
+            urlErrorResponseDto.setHttpStatus("200");
+            urlErrorResponseDto.setStatusMsg("Url is deleted");
+            return new ResponseEntity<>(urlErrorResponseDto, HttpStatus.OK);
+        }
+        UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
+        urlErrorResponseDto.setHttpStatus("404");
+        urlErrorResponseDto.setStatusMsg("Url not found");
+        return new ResponseEntity<>(urlErrorResponseDto, HttpStatus.OK);
+    }
+
 }
