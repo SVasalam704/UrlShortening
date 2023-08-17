@@ -1,0 +1,42 @@
+###-----ReadMe-----###
+Introduction:
+I'm trying to convert a long url to short url
+1. Uses of this UrlShortening Service
+  -> Saves lots of space when displayed, printed or tweeted
+  -> easy to remember
+2. Functional Requirements
+  -> Given a URL our service should generate shorten version of it
+  -> When user access a short URL our service should redirect it to long URL
+  -> Link should have standard expiry. Users can provide the link expiration
+3. Rest API's
+  ->CreateURL :: POST
+     {
+      "originalUrl":"name";
+      "ExpiryDate": 03-4-98;
+     }
+  ->DeleteURL :: DELETE
+    {
+    "shortURL" :""
+    }
+  ->RedirectURL :: GET
+    {
+    "shortURL" :""
+    }
+4.Database:
+  We store billion of rows,
+  and there is no relation,
+  and also there is no need of ACID properties
+  so we can use DynamoDB or NoSQL
+5.DB Tables Schema
+  Table - URL
+  1.id - int
+  2.original_url - clob(as length can be huge)
+  3.short_url - varchar
+  4.created_at - timestamp
+  5.expires_at - timestamp
+6.Algorithm
+  we can use a hashing algorithm like (MD5, SHA-256)
+    issues- Hashing can generate duplicate URLs when 2 users comes with same URL
+    solution - We can append an increasing number to url before generating URL
+               (since increasing number can grow very large we need a better alternative)
+7.While designing we should see Data Replication, Caching, Load Balancing, Capacity Estimations etc
